@@ -20,12 +20,12 @@ var increments = [{"input":["waterLoss"],
 var upgrades = {"water":1,"food":1, "oxygen":1} 
 
 //failure chance for RnG
-var chance = {"waterFailure": 90, "foodFailure": 90, "oxygenFailure": 90}
+var chance = {"waterFailure": 5, "foodFailure": 5, "oxygenFailure": 5}
 
 //costs of actual upgrades
-var costs = {"waterPurifier":600,
-                "foodCreation":400,
-                "plantCreation":1100};
+var costs = {"waterPurifier":150,
+                "foodCreation":60,
+                "plantCreation":300};
 
 //costs to reveal certain buttons 
 var unlocks = {
@@ -73,11 +73,16 @@ function upgradeWaterPurifier(){
             resources["waterLoss"] -= resources["waterDecrement"];
             document.getElementById("purifyWaterButton").disabled = true;
             document.getElementById("upgradeWaterPurifier").disabled = true;
+            
+            //indicate water collection and upgrades have failed
+            let waterFailure = document.getElementById("waterFailure");
+            waterFailure.textContent = "Water purification and upgrades have failed. There is also a water leakage."
+
         }
         //If it does not fail we increase the chance of failure by 1.25
         //and upgrade water collection
         else{
-            chance["waterFailure"] *= 1.25;
+            chance["waterFailure"] *= 2;
             upgrades["water"] +=1;
         }
     }
@@ -102,11 +107,15 @@ function upgradeFoodCreation(){
             resources["foodLoss"] -= resources["foodDecrement"];
             document.getElementById("makeFoodButton").disabled = true;
             document.getElementById("upgradeFoodCreation").disabled = true;
+
+            //indicate food creation and upgrades have failed
+            let foodFailure = document.getElementById("foodFailure");
+            foodFailure.textContent = "Food creation and upgrades have failed. Food cannot be made";
         }
         //If it does not fail we increase the chance of failure by 1.25
         //and upgrade food collection
         else{
-            chance["foodFailure"] *= 1.25;
+            chance["foodFailure"] *= 2;
             upgrades["food"] +=1;
         }
     updateText();
@@ -130,11 +139,15 @@ function upgradePlantCreation(){
             resources["oxygenLoss"] -= resources["oxygenDecrement"];
             document.getElementById("makePlantsButton").disabled = true;
             document.getElementById("upgradePlantCreation").disabled = true;
+
+            //indicate oxygen collection has failed and upgrades cannot be made
+            let oxyegenFailure = document.getElementById("oxygenFailure");
+            oxygenFailure.textContent = "Garden is ruined. Oxygen collection and upgrades cannot be made."
         }
         //If it does not fail we increase the chance of failure by 1.25
         //and upgrade food collection
         else{
-            chance["oxygenFailure"] *= 1.25;
+            chance["oxygenFailure"] *= 2;
             upgrades["oxygen"] +=1;
         }
     updateText();
@@ -149,10 +162,10 @@ function checkIntegrity()
     if(resources["water"] <= 1){
         resources["waterLoss"] = 0;
     }
-    else if(resources["food"] <= 1){
+    if(resources["food"] <= 1){
         resources["foodLoss"] = 0;
     } 
-    else if(resources["oxygen"] <= 1){
+    if(resources["oxygen"] <= 1){
         resources["oxygenLoss"] =0 ;
     }
 
