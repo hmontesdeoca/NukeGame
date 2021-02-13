@@ -1,8 +1,7 @@
 var timer = 256
 var tickRate = 16
 var visualRate = 256
-var resources = {"water":4000, "food": 300, "oxygen":2000, "waterDecrement":1,"oxygenDecrement":1,"foodDecrement":1 }
-
+var resources = {"water":4000, "food": 300, "oxygen":2000, "waterDecrement":1,"oxygenDecrement":1,"foodDecrement":1 };
 var increments = [{"input":["waterLoss"],
  		        "output":"water"},
                 
@@ -10,40 +9,123 @@ var increments = [{"input":["waterLoss"],
                 "output": "food"},
 
                 {"input":["oxygenLoss"], 
-                "output": "oxygen"}]
+                "output": "oxygen"}];
 
-var costs = {"pickaxe":15,
-                "miner":200,
-                "miner_pickaxe":15}
+var chance = {"waterFailure": 90, "foodFailure": 90, "oxygenFailure": 90}
 
-var unlocks = {"redButton":{"water":0, "food":0}}
+var costs = {"waterPurifier":100,
+                "foodCreation":50,
+                "plantCreation":200};
 
+var unlocks = {
+            "redButton":{"water":0, "food":0},
+            "waterPurifier": {"water": 4050},
+            "foodCreation":{"food": 400},
+            "plantCreation":{"oxygen": 2100}   
+            };
+
+//actions
 function purifyWater(){
     //increment water
     resources["water"] += 1;
-
-    //initialize and reduce
-    if(!resources["waterLoss"]){
-        resources["waterLoss"] =0;
-    }
-    resources["waterLoss"] -= 2;
 
     //update text
     updateText();
 };
 
 function makeFood(){
-     //initialize and reduce
-    if(!resources["foodLoss"]){
-        resources["foodLoss"] =0;
-    }
+    resources["food"] += 1;
+    updateText();
 };
 
 function makePlants(){
-    //initialize and reduce
-    if(!resources["oxygenLoss"]){
-        resources["oxygenLoss"] =0;
+    resources["oxygen"] += 1;
+    updateText();
+};
+
+
+//upgrades
+function upgradeWaterPurifier(){
+    if(resources["water"] >= costs["waterPurifier"]){
+        
+        //decrement resource
+        resources["water"] -= costs["waterPurifier"];
+        
+        //random number for chance of failure
+        var randy = Math.floor(Math.random() * 100);
+        
+        //It has a chance to fail and when it does water is lost
+        //and button is disabled
+        if(randy < chance["waterFailure"]){
+            if(!resources["waterLoss"]){
+                resources["waterLoss"]=0;
+            }
+            resources["waterLoss"] -= resources["waterDecrement"];
+            document.getElementById("purifyWaterButton").disabled = true;
+            document.getElementById("upgradeWaterPurifier").disabled = true;
+        }
+        //If it does not fail we increase the chance of failure
+        //and upgrade water collection
+        else{
+            chance["waterFailure"] *= 1.25;
+        }
     }
+    updateText();
+};
+
+function upgradeFoodCreation(){
+    if(resources["food"] >= costs["foodCreation"]){
+        
+        //decrement resource
+        resources["food"] -= costs["foodCreation"];
+        
+        //random number for chance of failure
+        var randy = Math.floor(Math.random() * 100);
+        
+        //It has a chance to fail and when it does food is lost
+        //and button is disabled
+        if(randy < chance["foodFailure"]){
+            if(!resources["foodLoss"]){
+                resources["foodLoss"]=0;
+            }
+            resources["foodLoss"] -= resources["foodDecrement"];
+            document.getElementById("makeFoodButton").disabled = true;
+            document.getElementById("upgradeFoodCreation").disabled = true;
+        }
+        //If it does not fail we increase the chance of failure
+        //and upgrade food collection
+        else{
+            chance["foodFailure"] *= 1.25;
+        }
+    updateText();
+    }
+};
+
+function upgradePlantCreation(){
+            
+        //decrement resource
+        resources["oxygen"] -= costs["plantCreation"];
+        
+        //random number for chance of failure
+        var randy = Math.floor(Math.random() * 100);
+        
+        //It has a chance to fail and when it does food is lost
+        //and button is disabled
+        if(randy < chance["oxygenFailure"]){
+            if(!resources["oxygenLoss"]){
+                resources["oxygenLoss"]=0;
+            }
+            resources["oxygenLoss"] -= resources["oxygenDecrement"];
+            document.getElementById("makePlantsButton").disabled = true;
+            document.getElementById("upgradePlantCreation").disabled = true;
+        }
+        //If it does not fail we increase the chance of failure
+        //and upgrade food collection
+        else{
+            chance["oxygenFailure"] *= 1.25;
+        }
+
+    updateText();
 };
 
 function updateText(){
