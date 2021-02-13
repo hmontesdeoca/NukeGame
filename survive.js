@@ -1,7 +1,12 @@
+//framerate settings 
 var timer = 256
 var tickRate = 16
 var visualRate = 256
-var resources = {"water":4000, "food": 300, "oxygen":2000, "waterDecrement":1,"oxygenDecrement":1,"foodDecrement":1 };
+
+//resources 
+var resources = {"water":1000, "food": 300, "oxygen":1000, "waterDecrement":1,"oxygenDecrement":.5,"foodDecrement":1 };
+
+//increments for automatic adjustments
 var increments = [{"input":["waterLoss"],
  		        "output":"water"},
                 
@@ -11,35 +16,40 @@ var increments = [{"input":["waterLoss"],
                 {"input":["oxygenLoss"], 
                 "output": "oxygen"}];
 
+//upgrades variables 
+var upgrades = {"water":1,"food":1, "oxygen":1} 
+
+//failure chance for RnG
 var chance = {"waterFailure": 90, "foodFailure": 90, "oxygenFailure": 90}
 
+//costs of actual upgrades
 var costs = {"waterPurifier":100,
                 "foodCreation":50,
                 "plantCreation":200};
 
+//costs to reveal certain buttons 
 var unlocks = {
-            "redButton":{"water":0, "food":0},
-            "waterPurifier": {"water": 4050},
+            "waterPurifier": {"water": 1050},
             "foodCreation":{"food": 400},
-            "plantCreation":{"oxygen": 2100}   
+            "plantCreation":{"oxygen": 1100}   
             };
 
 //actions
 function purifyWater(){
     //increment water
-    resources["water"] += 1;
+    resources["water"] += upgrades["water"];
 
     //update text
     updateText();
 };
 
 function makeFood(){
-    resources["food"] += 1;
+    resources["food"] += upgrades["food"];
     updateText();
 };
 
 function makePlants(){
-    resources["oxygen"] += 1;
+    resources["oxygen"] += upgrades["oxygen"];
     updateText();
 };
 
@@ -68,6 +78,7 @@ function upgradeWaterPurifier(){
         //and upgrade water collection
         else{
             chance["waterFailure"] *= 1.25;
+            upgrades["water"] +=1;
         }
     }
     updateText();
@@ -96,6 +107,7 @@ function upgradeFoodCreation(){
         //and upgrade food collection
         else{
             chance["foodFailure"] *= 1.25;
+            upgrades["food"] +=1;
         }
     updateText();
     }
@@ -123,12 +135,24 @@ function upgradePlantCreation(){
         //and upgrade food collection
         else{
             chance["oxygenFailure"] *= 1.25;
+            upgrades["oxygen"] +=1;
         }
 
     updateText();
 };
 
+//revealRedButton
+function checkRed()
+{
+    if (resources["water"] == 0 && resources["food"] == 0){
+        let redButton = document.getElementById("redButton");
+        redButton.style.display = "block"
+    }
+};
+
+//text-update functioon to properly display items 
 function updateText(){
+    checkRed();
     for (var key in unlocks){
 	var unlocked = true
 	for (var criterion in unlocks[key]){
@@ -153,7 +177,7 @@ function updateText(){
     }
 };
 
-
+//framerate adjusting
 window.setInterval(function(){
     timer += tickRate
 
