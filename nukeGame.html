@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+     <!-- Required meta tags -->
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <!-- Bootstrap CSS -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" 
+     rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <table class="table-sm table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Asteroid Metal</th>
+            <th scope="col">Uranium</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Nuke</th>
+            <td id="asteroidTableCost">4</td>
+            <td id="uraniumTableCost">6</td>
+          </tr>
+          <tr>
+            <th scope="row">Metal Collector</th>
+            <td id="asteroidTableUpgradeCost">35</td>
+            <td id="asteroidTableUpgradeCost2">35</td>
+          </tr>
+          <tr>
+            <th scope="row">Uranium Collector</th>
+            <td id="uraniumTableUpgradeCost">35</td>
+            <td id="uraniumTableUpgradeCost2">35</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="row">
+        <div class="col">
+          <div>Asteroid Metal: <span class="asteroid"></span></div>
+          <div>Space Uranium: <span class="uranium"></span></div>
+          <div>Nukes: <span class="nuke"></span></div>
+          <div id="metalPerClick">Metal per Click: 1</div>
+          <div id="uraniumPerClick">Uranium per Click: 1</div>
+        </div>
+        <div class="col">
+          <div class="btn-group-vertical">
+            <button onClick="nuke()" id="NukeButton">Nuke</button>
+            <button onClick="manufactureNuke()">Manufacture Nukes<span></span></button>
+            <button onClick="collectAsteroidMetal()">Collect Asteroid Metal</button>
+            <button onClick="collectUranium()">Collect Space Uranium</button>
+            <button style="display:none" class="show_asteroid" onClick="upgradeAsteroidMetal()">Upgrade Metal Collector</span></button>
+            <button style="display:none" class="show_uranium" onClick="upgradeUranium()">Upgrade Uranium Collector</span></button>
+            <script type="text/javascript" src="main.js"></script>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <h1 id="nukedMessage"></h1>
+      <h1 id="message"></h1>
+      <h1 id="error" class="text-danger"></h1>
+    </div>
+  </body>
+</html>
