@@ -4,7 +4,7 @@ var tickRate = 16
 var visualRate = 256
 
 //resources 
-var resources = {"water":1000, "food": 300, "oxygen":1000, "waterDecrement":1,"oxygenDecrement":.5,"foodDecrement":1 };
+var resources = {"water":500, "food": 300, "oxygen":1000, "waterDecrement":1,"oxygenDecrement":.5,"foodDecrement":1 };
 
 //increments for automatic adjustments
 var increments = [{"input":["waterLoss"],
@@ -23,13 +23,13 @@ var upgrades = {"water":1,"food":1, "oxygen":1}
 var chance = {"waterFailure": 90, "foodFailure": 90, "oxygenFailure": 90}
 
 //costs of actual upgrades
-var costs = {"waterPurifier":100,
-                "foodCreation":50,
-                "plantCreation":200};
+var costs = {"waterPurifier":600,
+                "foodCreation":400,
+                "plantCreation":1100};
 
 //costs to reveal certain buttons 
 var unlocks = {
-            "waterPurifier": {"water": 1050},
+            "waterPurifier": {"water": 600},
             "foodCreation":{"food": 400},
             "plantCreation":{"oxygen": 1100}   
             };
@@ -74,7 +74,7 @@ function upgradeWaterPurifier(){
             document.getElementById("purifyWaterButton").disabled = true;
             document.getElementById("upgradeWaterPurifier").disabled = true;
         }
-        //If it does not fail we increase the chance of failure
+        //If it does not fail we increase the chance of failure by 1.25
         //and upgrade water collection
         else{
             chance["waterFailure"] *= 1.25;
@@ -103,7 +103,7 @@ function upgradeFoodCreation(){
             document.getElementById("makeFoodButton").disabled = true;
             document.getElementById("upgradeFoodCreation").disabled = true;
         }
-        //If it does not fail we increase the chance of failure
+        //If it does not fail we increase the chance of failure by 1.25
         //and upgrade food collection
         else{
             chance["foodFailure"] *= 1.25;
@@ -114,7 +114,7 @@ function upgradeFoodCreation(){
 };
 
 function upgradePlantCreation(){
-            
+    if(resources["oxygen"]>= costs["foodCreation"]){
         //decrement resource
         resources["oxygen"] -= costs["plantCreation"];
         
@@ -131,20 +131,33 @@ function upgradePlantCreation(){
             document.getElementById("makePlantsButton").disabled = true;
             document.getElementById("upgradePlantCreation").disabled = true;
         }
-        //If it does not fail we increase the chance of failure
+        //If it does not fail we increase the chance of failure by 1.25
         //and upgrade food collection
         else{
             chance["oxygenFailure"] *= 1.25;
             upgrades["oxygen"] +=1;
         }
-
     updateText();
+    }
 };
 
-//revealRedButton
-function checkRed()
+//This will ensure no negative values exist
+//and the red button will appear at the right time 
+function checkIntegrity()
 {
-    if (resources["water"] == 0 && resources["food"] == 0){
+    //if any values equate to zero we will end the decrementing
+    if(resources["water"] <= 1){
+        resources["waterLoss"] = 0;
+    }
+    else if(resources["food"] <= 1){
+        resources["foodLoss"] = 0;
+    } 
+    else if(resources["oxygen"] <= 1){
+        resources["oxygenLoss"] =0 ;
+    }
+
+    //redButton Check
+    if (resources["water"] <= 1 && resources["food"] <= 1){
         let redButton = document.getElementById("redButton");
         redButton.style.display = "block"
     }
@@ -152,7 +165,7 @@ function checkRed()
 
 //text-update functioon to properly display items 
 function updateText(){
-    checkRed();
+    checkIntegrity();
     for (var key in unlocks){
 	var unlocked = true
 	for (var criterion in unlocks[key]){
