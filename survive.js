@@ -27,6 +27,7 @@ var costs = {"waterPurifier":150,
                 "foodCreation":60,
                 "plantCreation":300};
 
+
 //costs to reveal certain buttons 
 var unlocks = {
             "waterPurifier": {"water": 600},
@@ -80,10 +81,13 @@ function upgradeWaterPurifier(){
 
         }
         //If it does not fail we increase the chance of failure by 1.25
-        //and upgrade water collection
+        //upgrade water collection
+        //increase cost by 1.25
         else{
             chance["waterFailure"] *= 2;
-            upgrades["water"] +=1;
+            upgrades["water"] += 1;
+            costs["waterPurifier"] *= 1.25;
+            
         }
     }
     updateText();
@@ -114,9 +118,11 @@ function upgradeFoodCreation(){
         }
         //If it does not fail we increase the chance of failure by 1.25
         //and upgrade food collection
+        //increase cost by 1.25
         else{
             chance["foodFailure"] *= 2;
-            upgrades["food"] +=1;
+            upgrades["food"] += 1;
+            costs["foodCreation"] *= 1.25;
         }
     updateText();
     }
@@ -146,9 +152,11 @@ function upgradePlantCreation(){
         }
         //If it does not fail we increase the chance of failure by 1.25
         //and upgrade food collection
+        //increase cost by 1.25
         else{
             chance["oxygenFailure"] *= 2;
-            upgrades["oxygen"] +=1;
+            upgrades["oxygen"] += 1;
+            costs["plantCreation"] *= 1.25;
         }
     updateText();
     }
