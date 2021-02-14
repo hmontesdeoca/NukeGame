@@ -31,7 +31,7 @@ var asteroidUpgradeCost = 35;
 var uraniumUpgradeCost = 35;
 
 //rng
-var chance = 90;
+var chance = 30;
 var success = false; //boolean for successful defense
 var defenseCost = 1;
 
@@ -329,7 +329,6 @@ function updateText(){
 };
 
 //Displays prompt for nuking the nuke, player has 10 seconds before redirected.
-// Fuck obama, ligma
 function showToast(){
 
 	var random = Math.floor(Math.random() * 100);
