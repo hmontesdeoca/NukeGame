@@ -30,6 +30,11 @@ var uraniumCollectAdder = 2.0;
 var asteroidUpgradeCost = 35;
 var uraniumUpgradeCost = 35;
 
+//rng
+var chance = 90;
+var success = false; //boolean for successful defense
+var defenseCost = 1;
+
 //tier 1
 //cost 1
 var locations1 = [
@@ -144,6 +149,8 @@ function nuke(){
 		updateText();
 		clearError();
 		counter++;
+
+		showToast();
 	}
 
 	else {
@@ -261,6 +268,7 @@ function checkGame(){
 	if(locations.length==0){
 		let asteroidTableCost = document.getElementById("asteroidTableCost");
 		let uraniumTableCost = document.getElementById("uraniumTableCost");
+		let toastButton = document.getElementById("toast-button");
 		tier++;
 		switch(tier){
 			case 2:
@@ -269,6 +277,8 @@ function checkGame(){
 				uraniumCost = 12;
 				asteroidTableCost.textContent="8";
 				uraniumTableCost.textContent="12";
+				toastButton.textContent = "Nuke the nuke (Cost: 2 nukes)";
+				defenseCost = 2;
 			break;
 			case 3:
 				locations = locations3;
@@ -276,6 +286,8 @@ function checkGame(){
 				uraniumCost = 24;
 				asteroidTableCost.textContent = "16";
 				uraniumTableCost.textContent="24";
+				toastButton.textContent = "Nuke the nuke (Cost: 3 nukes)";
+				defenseCost = 3;
 			break;
 			case 4:
 				locations = locations4;
@@ -315,3 +327,53 @@ function updateText(){
 		}
     }
 };
+
+//Displays prompt for nuking the nuke, player has 10 seconds before redirected.
+// Fuck obama, ligma
+function showToast(){
+
+	var random = Math.floor(Math.random() * 100);
+	let nukeButton = document.getElementById("NukeButton");
+	let toastButton = document.getElementById("toast-button");
+	//let successMessage = document.getElementById("success");
+
+
+	if(random < chance){
+		//successMessage.style.visibility = "hidden";
+		toastButton.disabled = false;
+		success = false;
+		nukeButton.disabled = true;
+		$(".toast").toast('show');
+		// $('.toast').on('hide.bs.toast', function () {
+		// 	console.log("AHHHHHHHHHHH");
+		// })
+
+		window.setTimeout(() => {
+			$('.toast').toast('hide');
+			nukeButton.disabled = false;
+			if(!success){
+				location.href = "https://www.youtube.com/watch?v=nTDYoC1fuF4";
+			}
+		}, 10000)
+
+	}
+
+}
+
+function nukeTheNuke(){
+
+	let toastButton = document.getElementById("toast-button");
+	//let successMessage = document.getElementById("success");
+	let nukeButton = document.getElementById("NukeButton");
+
+	if(resources["nuke"] >= defenseCost){
+		resources["nuke"] -= defenseCost;
+		success = true;
+		toastButton.disabled = true;
+		//successMessage.style.visibility = "visible";
+		$('.toast').toast('hide');
+		nukeButton.disabled = false;
+	}
+	updateText();
+
+}
