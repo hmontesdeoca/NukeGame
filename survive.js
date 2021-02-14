@@ -129,7 +129,7 @@ function upgradeFoodCreation(){
 };
 
 function upgradePlantCreation(){
-    if(resources["oxygen"]>= costs["foodCreation"]){
+    if(resources["oxygen"]>= costs["plantCreation"]){
         //decrement resource
         resources["oxygen"] -= costs["plantCreation"];
         
