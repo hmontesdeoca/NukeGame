@@ -4,7 +4,7 @@ var tickRate = 16
 var visualRate = 256
 
 //resources 
-var resources = {"water":500, "food": 300, "oxygen":1000, "waterDecrement":1,"oxygenDecrement":.5,"foodDecrement":1 };
+var resources = {"water":1000, "food": 1000, "oxygen":2000, "waterDecrement":1,"oxygenDecrement":.5,"foodDecrement":1 };
 
 //increments for automatic adjustments
 var increments = [{"input":["waterLoss"],
@@ -20,19 +20,19 @@ var increments = [{"input":["waterLoss"],
 var upgrades = {"water":1,"food":1, "oxygen":1} 
 
 //failure chance for RnG
-var chance = {"waterFailure": 5, "foodFailure": 5, "oxygenFailure": 5}
+var chance = {"waterFailure": 2.5, "foodFailure": 2.5, "oxygenFailure": 2.5}
 
 //costs of actual upgrades
-var costs = {"waterPurifier":150,
-                "foodCreation":60,
-                "plantCreation":300};
+var costs = {"waterPurifier":200,
+                "foodCreation":200,
+                "plantCreation":600};
 
 
 //costs to reveal certain buttons 
 var unlocks = {
-            "waterPurifier": {"water": 600},
-            "foodCreation":{"food": 400},
-            "plantCreation":{"oxygen": 1100}   
+            "waterPurifier": {"water": 1100},
+            "foodCreation":{"food": 1100},
+            "plantCreation":{"oxygen": 2100}   
             };
 
 //actions

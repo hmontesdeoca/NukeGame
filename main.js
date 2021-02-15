@@ -334,24 +334,19 @@ function showToast(){
 	var random = Math.floor(Math.random() * 100);
 	let nukeButton = document.getElementById("NukeButton");
 	let toastButton = document.getElementById("toast-button");
-	//let successMessage = document.getElementById("success");
 
 
 	if(random < chance){
-		//successMessage.style.visibility = "hidden";
 		toastButton.disabled = false;
 		success = false;
 		nukeButton.disabled = true;
 		$(".toast").toast('show');
-		// $('.toast').on('hide.bs.toast', function () {
-		// 	console.log("AHHHHHHHHHHH");
-		// })
 
 		window.setTimeout(() => {
 			$('.toast').toast('hide');
 			nukeButton.disabled = false;
 			if(!success){
-				location.href = "https://www.youtube.com/watch?v=nTDYoC1fuF4";
+				location.href = "./GameOver.html";
 			}
 		}, 10000)
 
@@ -362,14 +357,12 @@ function showToast(){
 function nukeTheNuke(){
 
 	let toastButton = document.getElementById("toast-button");
-	//let successMessage = document.getElementById("success");
 	let nukeButton = document.getElementById("NukeButton");
 
 	if(resources["nuke"] >= defenseCost){
 		resources["nuke"] -= defenseCost;
 		success = true;
 		toastButton.disabled = true;
-		//successMessage.style.visibility = "visible";
 		$('.toast').toast('hide');
 		nukeButton.disabled = false;
 	}
